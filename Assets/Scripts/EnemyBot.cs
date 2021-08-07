@@ -13,7 +13,7 @@ public class EnemyBot : MonoBehaviour
     private bool startShooting = false;
     public float cannonForce = 20f;
     float distance;
-    public float range = 7f;
+    public float range = 6f;
 
     IEnumerator randomMove;
     IEnumerator shoot;
