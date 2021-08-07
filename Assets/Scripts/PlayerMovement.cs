@@ -3,8 +3,12 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 
+/// <summary>
+/// Controls the movement of the player and the cheating buttons.
+/// </summary>
 public class PlayerMovement : MonoBehaviour
-{
+{   
+    // Movement speed and vortex interaction.
     public float forwardSpeed = 2.5f;
     public float backwardSpeed = 0f;
     public float aroundSpeed = 20f;
@@ -26,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        // Look for the GameController.
         GameObject gameControllerObject = GameObject.FindWithTag("GameController");
         if (gameControllerObject != null)
         {
@@ -35,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Can not find 'GameController' script");
         }
+        // Refresh health on top.
         HealthOnTop();
     }
 
@@ -43,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
         healthText.GetComponent<Text>().text = "HP: " + this.GetComponent<Health>().currentHealth + "  /  " + this.GetComponent<Health>().maxHealth;
     }
 
+    // Those Decrease and Increase coroutines are a bad workaround for the realistic behaviour
+    // when a ship enters a vortex to be slown down first and then slowly get faster.
     IEnumerator Decrease(float turningPoint, float end, float rateInc, float rateDec)
     {
         while (backwardSpeed < turningPoint && shipRoutine && !beginDecrease)
@@ -78,19 +86,21 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other)
-    {
+    {   
+        // Gain scorepoints when picking up a crate and destroy it.
         if (other.gameObject.CompareTag("Crates"))
         {
             gameController.AddScore(crateScoreValue);
             gameController.GetComponent<Raycasting>().ChangeShipModel();
             Destroy(other.gameObject);
-            this.GetComponent<Health>().ModifyHealth(10);   // Crates give 5 healthpoints.
+            this.GetComponent<Health>().ModifyHealth(10);   // Crates give 10 healthpoints.
             HealthOnTop();
         }
     }
 
     void OnTriggerStay(Collider other)
-    {
+    {   
+        // Rotate around the vortex when inside.
         if (other.gameObject.CompareTag("VortexTag"))
         {
             this.transform.position -= transform.forward * backwardSpeed * Time.deltaTime; 
@@ -103,18 +113,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Instantiate crate at player position.
     public void DropCrate()
     {
         Vector3 dropPos = transform.position + (transform.up * 2.0f) + (transform.forward * 2.0f);
         Instantiate(crate, dropPos, UnityEngine.Random.rotation);
     }
 
+    // The cheating button "Hurt" drops a cannonball on the player.
     public void DropCannonBall()
     {
         Vector3 dropPos = transform.position + (transform.up * 2.0f) + (transform.forward * 2.0f);
         Instantiate(cannonBall, dropPos, UnityEngine.Random.rotation);
     }
 
+    // Control of the rotation when the arrow-buttons are pressed.
     public void OnPointerDown(Button btn)
     {
         buttonLeftBool = true;

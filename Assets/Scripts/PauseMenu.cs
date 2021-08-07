@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A general pause menu implemented, without any great options available so far.
+/// </summary>
 public class PauseMenu : MonoBehaviour
 {
     public static bool gameIsPaused = false;
@@ -16,6 +19,7 @@ public class PauseMenu : MonoBehaviour
     void Resume()
     {
         pauseMenuUI.SetActive(false);
+        // Unfreeze the game.
         Time.timeScale = 1f;
         gameIsPaused = false;
     }
@@ -23,6 +27,7 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
+        // Freeze the game.
         Time.timeScale = 0f;
         gameIsPaused = true;
     }

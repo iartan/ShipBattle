@@ -2,14 +2,16 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Whole Health script copied from Jason Weimanns Healthbar Video.
+/// The whole script is a bit of a mess and needs to be reviewed - TODO.
+/// </summary>
 public class Health : MonoBehaviour
 {
-    // Whole Health script copied from Jason Weimanns Healthbar Video.
     [SerializeField]
     public int maxHealth = 100;
 
     public int currentHealth;
-    // public int keepHealth;
     public GameObject crate;
 
     public event Action<float> OnHealthPctChanged = delegate { };
@@ -17,7 +19,6 @@ public class Health : MonoBehaviour
     private void OnEnable()
     {
         currentHealth = maxHealth;
-        // keepHealth = maxHealth;
     }
 
     public void ModifyHealth(int amount)

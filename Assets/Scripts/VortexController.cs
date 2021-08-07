@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Keep the vortex contantly rotating and destroys them after a few seconds.
+/// </summary>
 public class VortexController : MonoBehaviour
 {
     // Start is called before the first frame update

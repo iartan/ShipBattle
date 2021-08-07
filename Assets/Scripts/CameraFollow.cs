@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// The camera follows the player on a given distance, it doesn't copy the rotation though.
+/// The variables can be changed in the editor.
+/// </summary>
 public class CameraFollow : MonoBehaviour
 {
     public Transform player;

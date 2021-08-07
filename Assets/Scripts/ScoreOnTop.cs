@@ -3,22 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// The score text above the ships needs to be rotated to face the camera, because they are not on the main UI.
+/// </summary>
 public class ScoreOnTop : MonoBehaviour
 {
     public GameObject scoreText;
     public int score;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void LateUpdate()
     {

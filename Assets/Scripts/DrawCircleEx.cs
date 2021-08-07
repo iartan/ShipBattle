@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Draw a circle on the ground for visual gametesting. Copied this from the internet.
+/// </summary>
 public static class DrawCircleEx
 {
     public static void DrawCircle(this GameObject container, float radius, float lineWidth)
@@ -11,7 +14,7 @@ public static class DrawCircleEx
         line.endWidth = lineWidth;
         line.positionCount = segments + 1;
 
-        var pointCount = segments + 1; // add extra point to make startpoint and endpoint the same to close the circle
+        var pointCount = segments + 1; // Add an extra point to make the startpoint and the endpoint the same for closing the circle.
         var points = new Vector3[pointCount];
 
         for (int i = 0; i < pointCount; i++)

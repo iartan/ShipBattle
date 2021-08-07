@@ -2,9 +2,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Took script from Jason Weimann Youtube. It updates the healthbar above the ships in an nice animation.
+/// It needs a good review because it doesn't work like it should - TODO.
+/// </summary>
 public class HealthBar : MonoBehaviour
 {
-    // Took script from Jason Weimann Youtube.
     [SerializeField]
     public Image fillImage;
     [SerializeField]

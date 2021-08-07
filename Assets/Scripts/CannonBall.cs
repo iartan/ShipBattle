@@ -2,27 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Originally this scripts purpose was to let the cannonball fly an arc for realistic reasons.
+/// Thats the reason why the cannonballs have their own scripts and not only do fly by the force given when they got instantiated.
+/// Because of the game design decisions, the cannonballs now flies in a straight line, like in the earlier versions, so the existance of this whole script is now questionable - TODO.
+/// </summary>
 public class CannonBall : MonoBehaviour
 {
     public int scoreValue;
     public GameController gameController;
-
-    // private bool keepFalling = false;
 
     public Vector3 originalPosition;
     public Vector3 groundPosition;
     public float distance;
     public float groundDistance;
     public Vector3 goal;
-    
-    // Start is called before the first frame update
-    void Awake()
-    {
-
-    }
-    
+ 
     void Start()
     {
+        // Get the GameController in the scene.
         GameObject gameControllerObject = GameObject.FindWithTag("GameController");
         if (gameControllerObject != null)
         {
@@ -39,31 +37,31 @@ public class CannonBall : MonoBehaviour
         StartCoroutine(SelfDestruct());
     }
 
+    // Cannonball gets destroyed after some seconds. This is called in the start.
     IEnumerator SelfDestruct()
     {
         yield return new WaitForSeconds(5.0f);
         Destroy(gameObject);
     }
 
+    // If the cannonball hits other ships, it gets destroyed and the others recieve given damage.
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("PlayerShip") || other.gameObject.CompareTag("Enemy"))
         {
-            // print(this.name + " hit " + other.name); // Important lesson learned here: Those 2 lines schouldn't be inside those brackets but outside, right in the core of the method, because you dont see all objects which are collidet.
-            // print(this.name + " hit " + other.transform.parent.name);
-
-            if (this.name != other.name && this.name != other.transform.parent.name)    // For cannonballs to not hit the ship firing themself.
+            if (this.name != other.name && this.name != other.transform.parent.name)    // For cannonballs to not hit the ship by which they are fired.
             {
                 other.GetComponentInParent<Health>().ModifyHealth(-35);
                 
-                // gameController.AddScore(scoreValue); Removing the option to recieve points by only hiting an enemy.
                 Destroy(this.gameObject);
                 if (other.gameObject.CompareTag("Enemy"))
                 {
+                    // Call health-text refresh on other.
                     other.GetComponentInParent<EnemyBot>().HealthOnTop();
                 }
                 else if (other.gameObject.CompareTag("PlayerShip"))
                 {
+                    // Call health-text refresh on other.
                     other.GetComponentInParent<PlayerMovement>().HealthOnTop();
                 }
             }
@@ -77,22 +75,8 @@ public class CannonBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //groundPosition = new Vector3(transform.position.x, goal.y, transform.position.z);   // Für die Kanonenkugel einen Flugbogen simulieren, indem die Y-Achse verändert wird.
-        //groundDistance = Vector3.Distance(groundPosition, goal);
-        //if (groundDistance > (distance / 2) && !keepFalling)
-        //{
-        //    transform.position += Vector3.up * 5 * Time.deltaTime;
-        //}
-        //else
-        //{
-        //    keepFalling = true;
-        //    transform.position += Vector3.up * -5 * Time.deltaTime;
-        //}
-        //transform.LookAt(goal, Vector3.left);
-        //this.transform.position += transform.forward * 20f * Time.deltaTime;
-
         // Forcing a fixed Y position
-        var pos = transform.position;   // Ship moves weird on the Y-axis, up and down. We force a 0.25 Y position here.
+        var pos = transform.position;   
         pos.y = 0.45f;
         transform.position = pos;
     }
