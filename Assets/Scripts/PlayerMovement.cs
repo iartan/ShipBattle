@@ -92,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
         {
             gameController.AddScore(crateScoreValue);
             gameController.GetComponent<Raycasting>().ChangeShipModel();
+            // this.GetComponent<LevelController>().ChangeLevel();
             Destroy(other.gameObject);
             this.GetComponent<Health>().ModifyHealth(10);   // Crates give 10 healthpoints.
             HealthOnTop();

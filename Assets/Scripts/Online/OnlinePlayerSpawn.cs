@@ -1,52 +1,52 @@
 
-using MLAPI;
-using MLAPI.Messaging;
-using MLAPI.NetworkVariable;
-using UnityEngine;
+//using MLAPI;
+//using MLAPI.Messaging;
+//using MLAPI.NetworkVariable;
+//using UnityEngine;
 
-namespace PlayerSpawn
-{
-    public class OnlinePlayerSpawn : NetworkBehaviour
-    {
-        public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
-        {
-            WritePermission = NetworkVariablePermission.ServerOnly,
-            ReadPermission = NetworkVariablePermission.Everyone
-        });
+//namespace PlayerSpawn
+//{
+//    public class OnlinePlayerSpawn : NetworkBehaviour
+//    {
+//        public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
+//        {
+//            WritePermission = NetworkVariablePermission.ServerOnly,
+//            ReadPermission = NetworkVariablePermission.Everyone
+//        });
 
-        public override void NetworkStart()
-        {
-            Move();
-        }
+//        public override void NetworkStart()
+//        {
+//            Move();
+//        }
 
-        public void Move()
-        {
-            if (NetworkManager.Singleton.IsServer)
-            {
-                var randomPosition = GetRandomPositionOnPlane();
-                transform.position = randomPosition;
-                Position.Value = randomPosition;
-            }
-            else
-            {
-                SubmitPositionRequestServerRpc();
-            }
-        }
+//        public void Move()
+//        {
+//            if (NetworkManager.Singleton.IsServer)
+//            {
+//                var randomPosition = GetRandomPositionOnPlane();
+//                transform.position = randomPosition;
+//                Position.Value = randomPosition;
+//            }
+//            else
+//            {
+//                SubmitPositionRequestServerRpc();
+//            }
+//        }
 
-        [ServerRpc]
-        void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default)
-        {
-            Position.Value = GetRandomPositionOnPlane();
-        }
+//        [ServerRpc]
+//        void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default)
+//        {
+//            Position.Value = GetRandomPositionOnPlane();
+//        }
 
-        static Vector3 GetRandomPositionOnPlane()
-        {
-            return new Vector3(Random.Range(-3f, 3f), 0.25f, Random.Range(-3f, 3f));
-        }
+//        static Vector3 GetRandomPositionOnPlane()
+//        {
+//            return new Vector3(Random.Range(-3f, 3f), 0.25f, Random.Range(-3f, 3f));
+//        }
 
-        void Update()
-        {
-            // transform.position = Position.Value;
-        }
-    }
-}
+//        void Update()
+//        {
+//            // transform.position = Position.Value;
+//        }
+//    }
+//}

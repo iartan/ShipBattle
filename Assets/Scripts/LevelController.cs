@@ -1,0 +1,135 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+/// <summary>
+/// The management of the leveling system for the ships and the score.
+/// </summary>
+public class LevelController : MonoBehaviour
+{
+    // Initial variables.
+    int score;
+    int level;
+    int levelStep = 35;    // TODO - Find better variable name for this.
+    float scaleChange = 5.0f;
+    private int cratePoints = 10;
+
+    public GameObject hull;
+    public GameObject cannonPrefab;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        score = 0;
+        level = 1;
+    }
+
+    // Method to change the level of the ship depending on the score.
+    public void ChangeLevel()
+    {
+        // Debug.Log("Score: " + score);
+        // Debug.Log(this.transform.name);
+        // Check depending on the score if the ship is ready to level.
+        if (score >= level * levelStep)
+        {
+            level++;
+            // Debug.Log("Time to level.");
+            hull.transform.localScale += new Vector3(scaleChange, scaleChange, scaleChange);
+            // Add a new cannon on both sides.
+            GameObject cannon = Instantiate(cannonPrefab, this.transform.position, Quaternion.identity);
+            cannon.transform.SetParent(this.transform);
+            GameObject secondCannon = Instantiate(cannonPrefab, this.transform.position, Quaternion.Euler(Quaternion.identity.x, 180f, Quaternion.identity.z));
+            secondCannon.transform.SetParent(this.transform);
+        }
+        
+
+        //int score = gameController.GetComponent<GameController>().score;
+        //if (score < 60 && score > 29)
+        //{
+        //    if (currentShipLevel != 2)
+        //    {
+        //        currentShipLevel = 2;
+        //        print("2 Level 2 for Player ship.");
+
+        //        // Replace old prefab by the new one.
+        //        GameObject thisModel = Instantiate(shipLevel2, player.transform.position, player.transform.rotation) as GameObject;
+        //        Destroy(currentShip);
+        //        thisModel.transform.parent = player.transform;
+        //        currentShip = thisModel;
+        //        // Top the health to a nex maximum.
+        //        player.GetComponent<Health>().maxHealth = 150;
+        //        player.GetComponent<Health>().currentHealth = 150;
+        //        player.GetComponent<Health>().ModifyHealth(0);
+        //        player.GetComponent<PlayerMovement>().HealthOnTop();
+        //        // The cannons-lists needs to be reverted.
+        //        cannonsLeft.Clear();
+        //        cannonsRight.Clear();
+        //        foreach (Transform child in currentShip.transform)
+        //        {
+        //            if (child.gameObject.CompareTag("LeftCannon"))
+        //            {
+        //                cannonsLeft.Add(child.transform);
+        //            }
+        //            else if (child.gameObject.CompareTag("RightCannon"))
+        //            {
+        //                cannonsRight.Add(child.transform);
+        //            }
+        //        }
+        //    }
+        //}
+        //else if (score < 90 && score > 59)
+        //{
+        //    if (currentShipLevel != 3)
+        //    {
+        //        currentShipLevel = 3;
+
+        //        // Replace the old ship model by a new prefab.
+        //        GameObject thisModel = Instantiate(shipLevel3, player.transform.position, player.transform.rotation) as GameObject;
+        //        Destroy(currentShip);
+        //        thisModel.transform.parent = player.transform;
+        //        currentShip = thisModel;
+        //        // Top the health to a nex maximum
+        //        player.GetComponent<Health>().maxHealth = 200;
+        //        player.GetComponent<Health>().currentHealth = 200;
+        //        player.GetComponent<Health>()
+        //                  .ModifyHealth(0);
+        //        player.GetComponent<PlayerMovement>().HealthOnTop();
+        //        // The cannons-lists needs to be reverted.
+        //        cannonsLeft.Clear();
+        //        cannonsRight.Clear();
+        //        foreach (Transform child in currentShip.transform)
+        //        {
+        //            if (child.gameObject.CompareTag("LeftCannon"))
+        //            {
+        //                cannonsLeft.Add(child.transform);
+        //            }
+        //            else if (child.gameObject.CompareTag("RightCannon"))
+        //            {
+        //                cannonsRight.Add(child.transform);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        print("Player ship already is level 3");
+        //    }
+        //}
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        // Call ChangeLevel() when picking up a crate.
+        if (other.gameObject.CompareTag("Crates"))
+        {
+            score += cratePoints;
+            ChangeLevel();
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

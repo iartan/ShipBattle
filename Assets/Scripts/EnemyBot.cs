@@ -469,7 +469,6 @@ public class EnemyBot : MonoBehaviour
         {
             if (lastVortex == null)
             {
-                Debug.Log("Vortex destroyed.");
                 insideVortex = false;
             }
         }
