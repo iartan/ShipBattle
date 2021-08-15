@@ -17,6 +17,7 @@ public class LevelController : MonoBehaviour
 
     public GameObject hull;
     public GameObject cannonPrefab;
+    public GameObject cannonSystem;
 
     // Start is called before the first frame update
     void Start()
@@ -36,11 +37,20 @@ public class LevelController : MonoBehaviour
             level++;
             // Debug.Log("Time to level.");
             hull.transform.localScale += new Vector3(scaleChange, scaleChange, scaleChange);
+
             // Add a new cannon on both sides.
-            GameObject cannon = Instantiate(cannonPrefab, this.transform.position, Quaternion.identity);
-            cannon.transform.SetParent(this.transform);
-            GameObject secondCannon = Instantiate(cannonPrefab, this.transform.position, Quaternion.Euler(Quaternion.identity.x, 180f, Quaternion.identity.z));
-            secondCannon.transform.SetParent(this.transform);
+            GameObject cannon = Instantiate(cannonPrefab, new Vector3(this.transform.position.x - 0.4f, this.transform.position.y + 0.25f, this.transform.position.z), this.transform.rotation);
+            cannon.transform.SetParent(cannonSystem.transform);
+            cannon.name = "LeftCannon" + level;
+            cannon.tag = "LeftCannon";
+            cannon.transform.localPosition = new Vector3(-0.3f, 0.25f, 0f);
+            cannon.transform.localEulerAngles = new Vector3(0, 0, 0);
+            GameObject secondCannon = Instantiate(cannonPrefab, new Vector3(this.transform.position.x + 0.4f, this.transform.position.y + 0.25f, this.transform.position.z), Quaternion.identity);
+            secondCannon.transform.SetParent(cannonSystem.transform);
+            secondCannon.name = "RightCannon" + level;
+            secondCannon.tag = "RightCannon";
+            secondCannon.transform.localPosition = new Vector3(0.3f, 0.25f, 0f);
+            secondCannon.transform.localEulerAngles = new Vector3(0, 180.0f, 0);
         }
         
 

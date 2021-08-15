@@ -15,6 +15,7 @@ TagManager:
   - RightCannon
   - PlayerShip
   - Mine
+  - Cannons
   layers:
   - Default
   - TransparentFX

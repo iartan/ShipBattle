@@ -75,7 +75,7 @@ public class Raycasting : MonoBehaviour
     {
         foreach (Transform child in player.transform)
         {
-            if (child.gameObject.CompareTag("PlayerShip"))
+            if (child.gameObject.CompareTag("Cannons"))
             {
                 currentShip = child.gameObject;
                 currentShip.transform.parent = player.transform;
@@ -251,7 +251,7 @@ public class Raycasting : MonoBehaviour
 
                 if (Input.GetMouseButtonUp(0))
                 {
-                    Debug.Log(clickTimer);
+                    // Debug.Log(clickTimer);
                     
                     bool rightAngle = true; // Setting rightAngle manually to true, to be able to shoot from all angles.
                     float angle = CheckShootingAngle(hit.point);
