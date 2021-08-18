@@ -277,7 +277,10 @@ public class Raycasting : MonoBehaviour
 
                     // If the player can shoot and the click/touch duration is less than 0.2 seconds, then shoot from all cannons.
                     else if (hit.transform.gameObject.layer == 8 && canShoot && rightAngle && clickTimer < 0.2f || hit.transform.gameObject.layer == 4 && canShoot && rightAngle && clickTimer < 0.2f)
-                    {   
+                    {
+                        // Get the player level.
+                        int level = player.GetComponent<LevelController>().level;
+
                         // Reset the clickTimer.
                         clickTimer = 0;
                         leftDist = Vector3.Distance(cannonsLeft[0].transform.position, hit.point);
@@ -297,22 +300,51 @@ public class Raycasting : MonoBehaviour
                         go1.DrawCircle(0.5f, 0.1f);
                         Destroy(go1.gameObject, 2f);
 
-                        // Shoot from each cannon from the currentCannons list.
-                        foreach (Transform cannon in currentCannons)
+                        // Shoot the amount of times matching the level.
+                        for (int i = 0; i < level; i++)
                         {
-                            var xz = UnityEngine.Random.insideUnitCircle * 0.5f;    // Random Vector2 position in a given radius.
-                            var randomizedPosition = new Vector3(xz.x, cannon.transform.position.y, xz.y) + hit.point; // Converting Vector2 to Vector3 and adding 1 to the Y-Axis so the position is above earth.
-                            Vector3 direction = randomizedPosition - cannon.transform.position;
+                            Vector3 shotPos = hit.point;
+                            // Spawn cannonball in a row in the direction where the shoot position faces the player.
+                            // I came to this formula to let the cannons shoot where each cannonball is cented and aligned in the desired line and keeping
+                            // the distance one to the other.
+                            Vector3 shootDir = (hit.point - player.transform.position).normalized;
+                            shootDir = Quaternion.Euler(0f, -90.0f, 0f) * shootDir;
+                            Vector3 cannonSpawnPos = player.transform.position + shootDir * (0.5f * (level - (i * 2)) -0.5f);
+                            shotPos += shootDir * (0.5f * (level - (i * 2)) - 0.5f);
+                            Debug.Log(cannonSpawnPos.z);
 
-                            GameObject cannonBall = Instantiate(cannonBallPrefab, cannon.transform.position, Quaternion.identity); // Instantiating the cannonball further ahead to not automatic touch the cannon itself and cause collision.
+                            Vector3 direction = shotPos - cannonSpawnPos;
+
+                            //Vector3 pos = player.transform.position;
+                            
+                            //Debug.DrawLine(pos, pos + dir * 10, Color.red, Mathf.Infinity);
+
+                            GameObject cannonBall = Instantiate(cannonBallPrefab, cannonSpawnPos, Quaternion.identity); // Instantiating the cannonball further ahead to not automatic touch the cannon itself and cause collision.
                             // Get access to the rigidbody of the cannonball to manipulate it's states.
                             Rigidbody rb = cannonBall.GetComponent<Rigidbody>();
                             cannonBall.name = "Player";
                             cannonBall.gameObject.tag = "PlayerCannonBall";
 
-                            cannonBall.GetComponent<CannonBall>().goal = randomizedPosition;
+                            cannonBall.GetComponent<CannonBall>().goal = shotPos;
                             rb.AddForce((direction.normalized) * cannonForce, ForceMode.Impulse);
                         }
+
+                        // TODO - This is the old shooting method, currently changing it.
+                        //foreach (Transform cannon in currentCannons)
+                        //{
+                        //    var xz = UnityEngine.Random.insideUnitCircle * 0.5f;    // Random Vector2 position in a given radius.
+                        //    var randomizedPosition = new Vector3(xz.x, cannon.transform.position.y, xz.y) + hit.point; // Converting Vector2 to Vector3 and adding 1 to the Y-Axis so the position is above earth.
+                        //    Vector3 direction = randomizedPosition - cannon.transform.position;
+
+                        //    GameObject cannonBall = Instantiate(cannonBallPrefab, cannon.transform.position, Quaternion.identity); // Instantiating the cannonball further ahead to not automatic touch the cannon itself and cause collision.
+                        //    // Get access to the rigidbody of the cannonball to manipulate it's states.
+                        //    Rigidbody rb = cannonBall.GetComponent<Rigidbody>();
+                        //    cannonBall.name = "Player";
+                        //    cannonBall.gameObject.tag = "PlayerCannonBall";
+
+                        //    cannonBall.GetComponent<CannonBall>().goal = randomizedPosition;
+                        //    rb.AddForce((direction.normalized) * cannonForce, ForceMode.Impulse);
+                        //}
 
                         canShoot = false;   // Bool for shootDelay.
                         StartCoroutine(shootDelay());

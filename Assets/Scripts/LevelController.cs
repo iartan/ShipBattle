@@ -10,7 +10,8 @@ public class LevelController : MonoBehaviour
 {
     // Initial variables.
     int score;
-    int level;
+    // Make the level variable public to get it from other scripts.
+    public int level;
     int levelStep = 35;    // TODO - Find better variable name for this.
     float scaleChange = 5.0f;
     private int cratePoints = 10;
@@ -38,18 +39,25 @@ public class LevelController : MonoBehaviour
             // Debug.Log("Time to level.");
             hull.transform.localScale += new Vector3(scaleChange, scaleChange, scaleChange);
 
+            // Move all cannons which are inside Cannons a bit to the front to make place for the new cannons.
+            foreach (Transform child in cannonSystem.transform)
+            {
+                Vector3 offset = new Vector3(0f, 0f, 0.25f);
+                child.transform.position += offset;
+            }
+
             // Add a new cannon on both sides.
             GameObject cannon = Instantiate(cannonPrefab, new Vector3(this.transform.position.x - 0.4f, this.transform.position.y + 0.25f, this.transform.position.z), this.transform.rotation);
             cannon.transform.SetParent(cannonSystem.transform);
             cannon.name = "LeftCannon" + level;
             cannon.tag = "LeftCannon";
-            cannon.transform.localPosition = new Vector3(-0.3f, 0.25f, 0f);
+            cannon.transform.localPosition = new Vector3(-0.3f, 0.25f, -0.25f * (level - 1));
             cannon.transform.localEulerAngles = new Vector3(0, 0, 0);
             GameObject secondCannon = Instantiate(cannonPrefab, new Vector3(this.transform.position.x + 0.4f, this.transform.position.y + 0.25f, this.transform.position.z), Quaternion.identity);
             secondCannon.transform.SetParent(cannonSystem.transform);
             secondCannon.name = "RightCannon" + level;
             secondCannon.tag = "RightCannon";
-            secondCannon.transform.localPosition = new Vector3(0.3f, 0.25f, 0f);
+            secondCannon.transform.localPosition = new Vector3(0.3f, 0.25f, -0.25f * (level - 1));
             secondCannon.transform.localEulerAngles = new Vector3(0, 180.0f, 0);
         }
         

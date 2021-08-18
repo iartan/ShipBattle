@@ -401,21 +401,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c42682a0002cb241b006973a479c899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomPosition: {x: 0, y: 0, z: 0}
   cannonBallPrefab: {fileID: 3695765060716184334, guid: 56f30e8ec9bc1b0488a67c793f9d7b26,
     type: 3}
-  cannonForce: 20
-  range: 9
+  crate: {fileID: 4948509999479888202, guid: 8c59d62f82c64604b8021edea2ea2ca8, type: 3}
+  explosionPrefab: {fileID: 4388947112716342, guid: f53c266fb33e37b4891f539d8f98d5db,
+    type: 3}
   scoreText: {fileID: 6137319820131777643}
   healthText: {fileID: 263734551387439056}
+  randomPosition: {x: 0, y: 0, z: 0}
+  cannonForce: 20
+  range: 9
   score: 0
   crateScoreValue: 10
   cannonsLeft: []
   cannonsRight: []
   currentCannons: []
-  insideVortex: 0
   vortexToPlace: {fileID: 15608770303034068, guid: 417b7f4aa41f3d640b6a08944c56f362,
     type: 3}
+  insideVortex: 0
   forwardSpeed: 2.5
   backwardSpeed: 0
   aroundSpeed: 20
@@ -425,9 +428,6 @@ MonoBehaviour:
   shipLevel2: {fileID: 3787685581202723681, guid: 90a7e285924eafb499aafd9c7fbf4253,
     type: 3}
   shipLevel3: {fileID: 4459124071086691148, guid: 6c4a9914d6a868f4cafdcd4bd5b7ca81,
-    type: 3}
-  crate: {fileID: 4948509999479888202, guid: 8c59d62f82c64604b8021edea2ea2ca8, type: 3}
-  explosionPrefab: {fileID: 4388947112716342, guid: f53c266fb33e37b4891f539d8f98d5db,
     type: 3}
 --- !u!54 &5461952855548538544
 Rigidbody:
@@ -646,6 +646,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship Level 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7664213485056393315, guid: 3134d9e4053323c46b7818754479d357,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666041226933213472, guid: 3134d9e4053323c46b7818754479d357,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8525106883783858150, guid: 3134d9e4053323c46b7818754479d357,
         type: 3}
       propertyPath: m_RootOrder
@@ -699,6 +709,16 @@ PrefabInstance:
     - target: {fileID: 8525106883783858150, guid: 3134d9e4053323c46b7818754479d357,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775157792011719079, guid: 3134d9e4053323c46b7818754479d357,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788882335153850596, guid: 3134d9e4053323c46b7818754479d357,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

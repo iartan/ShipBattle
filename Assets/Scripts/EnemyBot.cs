@@ -482,7 +482,7 @@ public class EnemyBot : MonoBehaviour
             randomMove = Move(randomPosition, 0.0015f);
             StartCoroutine(randomMove);
         }
-        this.transform.position += transform.forward * 2.5f * Time.deltaTime;   // This makes the enemy to move forward.
+        // this.transform.position += transform.forward * 2.5f * Time.deltaTime;   // This makes the enemy to move forward.
 
         var pos = transform.position;   // Ship moves weird on the Y-axis, up and down. We force a 0.25 Y position here.
         pos.y = 0.25f;
