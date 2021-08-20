@@ -123,72 +123,73 @@ public class EnemyBot : MonoBehaviour
     // 0-29 = Model 1, 30 - 59 = Model 2, 60+ = Model 3. 
     public void ChangeShipModel()
     {
-        if (score < 60 && score > 29)
-        {
-            if (currentShipLevel != 2)
-            {
-                currentShipLevel = 2;
+        Debug.Log("Dummy-Calling ChangeShipModel");
+        //if (score < 60 && score > 29)
+        //{
+        //    if (currentShipLevel != 2)
+        //    {
+        //        currentShipLevel = 2;
 
-                // Place the new model and get rid of the old one.
-                GameObject thisModel = Instantiate(shipLevel2, transform.position, transform.rotation) as GameObject;
-                Destroy(currentShip);
-                thisModel.transform.parent = transform;
-                currentShip = thisModel;
-                // Set health to 200 by chanching the values on the health script attached on the bot.
-                gameObject.GetComponent<Health>().maxHealth = 150;
-                gameObject.GetComponent<Health>().currentHealth = 150;
-                gameObject.GetComponent<Health>()
-                          .ModifyHealth(0);
-                // Refresh healh on top.
-                HealthOnTop();
-                // Because model changed, the cannons-lists need to be reverted.
-                cannonsLeft.Clear();
-                cannonsRight.Clear();
-                foreach (Transform child in currentShip.transform)
-                {
-                    if (child.gameObject.CompareTag("LeftCannon"))
-                    {
-                        cannonsLeft.Add(child.transform);
-                    }
-                    else if (child.gameObject.CompareTag("RightCannon"))
-                    {
-                        cannonsRight.Add(child.transform);
-                    }
-                }
-            }
-        }
-        else if (score < 90 && score > 59)
-        {
-            if (currentShipLevel != 3)
-            {
-                currentShipLevel = 3;
+        //        // Place the new model and get rid of the old one.
+        //        GameObject thisModel = Instantiate(shipLevel2, transform.position, transform.rotation) as GameObject;
+        //        Destroy(currentShip);
+        //        thisModel.transform.parent = transform;
+        //        currentShip = thisModel;
+        //        // Set health to 200 by chanching the values on the health script attached on the bot.
+        //        gameObject.GetComponent<Health>().maxHealth = 150;
+        //        gameObject.GetComponent<Health>().currentHealth = 150;
+        //        gameObject.GetComponent<Health>()
+        //                  .ModifyHealth(0);
+        //        // Refresh healh on top.
+        //        HealthOnTop();
+        //        // Because model changed, the cannons-lists need to be reverted.
+        //        cannonsLeft.Clear();
+        //        cannonsRight.Clear();
+        //        foreach (Transform child in currentShip.transform)
+        //        {
+        //            if (child.gameObject.CompareTag("LeftCannon"))
+        //            {
+        //                cannonsLeft.Add(child.transform);
+        //            }
+        //            else if (child.gameObject.CompareTag("RightCannon"))
+        //            {
+        //                cannonsRight.Add(child.transform);
+        //            }
+        //        }
+        //    }
+        //}
+        //else if (score < 90 && score > 59)
+        //{
+        //    if (currentShipLevel != 3)
+        //    {
+        //        currentShipLevel = 3;
 
-                // Place the new model and get rid of the old one.
-                GameObject thisModel = Instantiate(shipLevel3, transform.position, transform.rotation) as GameObject;
-                Destroy(currentShip);
-                thisModel.transform.parent = transform;
-                currentShip = thisModel;
-                // Set health to 200 by chanching the values on the health script attached on the bot.
-                gameObject.GetComponent<Health>().maxHealth = 200;
-                gameObject.GetComponent<Health>().currentHealth = 200;
-                gameObject.GetComponent<Health>().ModifyHealth(0);
-                HealthOnTop();
-                // Because model changed, the cannons-lists need to be reverted.
-                cannonsLeft.Clear();
-                cannonsRight.Clear();
-                foreach (Transform child in currentShip.transform)
-                {
-                    if (child.gameObject.CompareTag("LeftCannon"))
-                    {
-                        cannonsLeft.Add(child.transform);
-                    }
-                    else if (child.gameObject.CompareTag("RightCannon"))
-                    {
-                        cannonsRight.Add(child.transform);
-                    }
-                }
-            }
-        }
+        //        // Place the new model and get rid of the old one.
+        //        GameObject thisModel = Instantiate(shipLevel3, transform.position, transform.rotation) as GameObject;
+        //        Destroy(currentShip);
+        //        thisModel.transform.parent = transform;
+        //        currentShip = thisModel;
+        //        // Set health to 200 by chanching the values on the health script attached on the bot.
+        //        gameObject.GetComponent<Health>().maxHealth = 200;
+        //        gameObject.GetComponent<Health>().currentHealth = 200;
+        //        gameObject.GetComponent<Health>().ModifyHealth(0);
+        //        HealthOnTop();
+        //        // Because model changed, the cannons-lists need to be reverted.
+        //        cannonsLeft.Clear();
+        //        cannonsRight.Clear();
+        //        foreach (Transform child in currentShip.transform)
+        //        {
+        //            if (child.gameObject.CompareTag("LeftCannon"))
+        //            {
+        //                cannonsLeft.Add(child.transform);
+        //            }
+        //            else if (child.gameObject.CompareTag("RightCannon"))
+        //            {
+        //                cannonsRight.Add(child.transform);
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     // Method to update the score.
@@ -381,36 +382,66 @@ public class EnemyBot : MonoBehaviour
         while (startShooting)
         {   
             // The distance between the first left or right cannon to the enemy decides from which side the cannons are shooting. Bad solution but it will do.
-            leftDist = Vector3.Distance(cannonsLeft[0].transform.position, other.transform.position);
-            rightDist = Vector3.Distance(cannonsRight[0].transform.position, other.transform.position);
+            //leftDist = Vector3.Distance(cannonsLeft[0].transform.position, other.transform.position);
+            //rightDist = Vector3.Distance(cannonsRight[0].transform.position, other.transform.position);
             
-            // Add the cannons from the closest side to currentCannons list for shooting.
-            if (leftDist <= rightDist)
-            {
-                currentCannons = cannonsLeft;
-            }
-            else
-            {
-                currentCannons = cannonsRight;
-            }
+            //// Add the cannons from the closest side to currentCannons list for shooting.
+            //if (leftDist <= rightDist)
+            //{
+            //    currentCannons = cannonsLeft;
+            //}
+            //else
+            //{
+            //    currentCannons = cannonsRight;
+            //}
 
-            // Shoot from all cannons in the currentCannons list.
-            foreach (Transform cannon in currentCannons)
-            {
-                Vector3 direction = other.transform.position - cannon.transform.position;
+            int level = this.GetComponent<LevelController>().level;
 
-                GameObject cannonBall = Instantiate(cannonBallPrefab, cannon.transform.position, Quaternion.identity);  // Instantiating the cannonball further away in the front to not collide with the cannon itself.
-                cannonBall.name = this.name;
+            // Shoot the amount of times matching the level.
+            for (int i = 0; i < level; i++)
+            {
+                // The hitpoint of the raycast in the ground-layer is the shoot position.
+                Vector3 shotPos = other.transform.position;
+
+                // Spawn cannonball in a row in the direction where the shoot position faces the player.
+                // I came to this formula to let the cannons shoot where each cannonball is cented and aligned in the desired line and keeping
+                // the distance one to the other.
+                Vector3 shootDir = (shotPos - this.transform.position).normalized;
+                shootDir = Quaternion.Euler(0f, -90.0f, 0f) * shootDir;
+                Vector3 cannonSpawnPos = this.transform.position + shootDir * (0.5f * (level - (i * 2)) - 0.5f);
+                shotPos += shootDir * (0.5f * (level - (i * 2)) - 0.5f);
+
+                Vector3 direction = shotPos - cannonSpawnPos;
+
+                // Shooting.
+                GameObject cannonBall = Instantiate(cannonBallPrefab, cannonSpawnPos, Quaternion.identity); // Instantiating the cannonball further ahead to not automatic touch the cannon itself and cause collision.
+                                                                                                            // Get access to the rigidbody of the cannonball to manipulate it's states.
                 Rigidbody rb = cannonBall.GetComponent<Rigidbody>();
-                cannonBall.tag = "EnemyCannonBall";
-                // cannonBall.transform.SetParent(this.transform); // Removing cannonballs from beeing child of shooting ship.
+                cannonBall.name = this.name;
+                cannonBall.gameObject.tag = "EnemyCannonBall";
 
-                // The instantiated cannonball has his own script to fly to the position, so the shooting position needs to be sent to the "CannonBall" script.
-                cannonBall.GetComponent<CannonBall>().goal = other.transform.position;
-                
-                rb.AddForce(direction.normalized * cannonForce, ForceMode.Impulse);
-                // yield return new WaitForSeconds(1f);
+                cannonBall.GetComponent<CannonBall>().goal = shotPos;
+                rb.AddForce((direction.normalized) * cannonForce, ForceMode.Impulse);
             }
+
+            // TODO - Remove old shooting System.
+            // Shoot from all cannons in the currentCannons list.
+            //foreach (Transform cannon in currentCannons)
+            //{
+            //    Vector3 direction = other.transform.position - cannon.transform.position;
+
+            //    GameObject cannonBall = Instantiate(cannonBallPrefab, cannon.transform.position, Quaternion.identity);  // Instantiating the cannonball further away in the front to not collide with the cannon itself.
+            //    cannonBall.name = this.name;
+            //    Rigidbody rb = cannonBall.GetComponent<Rigidbody>();
+            //    cannonBall.tag = "EnemyCannonBall";
+            //    // cannonBall.transform.SetParent(this.transform); // Removing cannonballs from beeing child of shooting ship.
+
+            //    // The instantiated cannonball has his own script to fly to the position, so the shooting position needs to be sent to the "CannonBall" script.
+            //    cannonBall.GetComponent<CannonBall>().goal = other.transform.position;
+
+            //    rb.AddForce(direction.normalized * cannonForce, ForceMode.Impulse);
+            //    // yield return new WaitForSeconds(1f);
+            //}
             yield return new WaitForSeconds(delay);
             startShooting = false;
         }
@@ -482,7 +513,7 @@ public class EnemyBot : MonoBehaviour
             randomMove = Move(randomPosition, 0.0015f);
             StartCoroutine(randomMove);
         }
-        // this.transform.position += transform.forward * 2.5f * Time.deltaTime;   // This makes the enemy to move forward.
+        this.transform.position += transform.forward * 2.5f * Time.deltaTime;   // This makes the enemy to move forward.
 
         var pos = transform.position;   // Ship moves weird on the Y-axis, up and down. We force a 0.25 Y position here.
         pos.y = 0.25f;

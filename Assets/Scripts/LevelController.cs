@@ -36,22 +36,27 @@ public class LevelController : MonoBehaviour
         if (score >= level * levelStep)
         {
             level++;
+            // On each level the ship gets a nex max health and some 100 health points.
+            this.GetComponent<Health>().maxHealth = level * 50 + 50;
+            // this.GetComponent<Health>().currentHealth = level * 100;
+            this.GetComponent<Health>().ModifyHealth(100);
+            
             // Debug.Log("Time to level.");
-            hull.transform.localScale += new Vector3(scaleChange, scaleChange, scaleChange);
+            hull.transform.localScale += new Vector3(scaleChange, scaleChange * 2.0f, scaleChange);
 
             // Move all cannons which are inside Cannons a bit to the front to make place for the new cannons.
             foreach (Transform child in cannonSystem.transform)
             {
                 Vector3 offset = new Vector3(0f, 0f, 0.25f);
-                child.transform.position += offset;
+                child.transform.localPosition += offset;
             }
 
             // Add a new cannon on both sides.
-            GameObject cannon = Instantiate(cannonPrefab, new Vector3(this.transform.position.x - 0.4f, this.transform.position.y + 0.25f, this.transform.position.z), this.transform.rotation);
+            GameObject cannon = Instantiate(cannonPrefab, new Vector3(this.transform.localPosition.x - 0.4f, this.transform.localPosition.y + 1.0f, this.transform.localPosition.z), this.transform.rotation);
             cannon.transform.SetParent(cannonSystem.transform);
             cannon.name = "LeftCannon" + level;
             cannon.tag = "LeftCannon";
-            cannon.transform.localPosition = new Vector3(-0.3f, 0.25f, -0.25f * (level - 1));
+            cannon.transform.localPosition = new Vector3(-0.3f, 1.0f, -0.25f * (level - 1));
             cannon.transform.localEulerAngles = new Vector3(0, 0, 0);
             GameObject secondCannon = Instantiate(cannonPrefab, new Vector3(this.transform.position.x + 0.4f, this.transform.position.y + 0.25f, this.transform.position.z), Quaternion.identity);
             secondCannon.transform.SetParent(cannonSystem.transform);

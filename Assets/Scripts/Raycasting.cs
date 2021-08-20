@@ -303,7 +303,9 @@ public class Raycasting : MonoBehaviour
                         // Shoot the amount of times matching the level.
                         for (int i = 0; i < level; i++)
                         {
+                            // The hitpoint of the raycast in the ground-layer is the shoot position.
                             Vector3 shotPos = hit.point;
+
                             // Spawn cannonball in a row in the direction where the shoot position faces the player.
                             // I came to this formula to let the cannons shoot where each cannonball is cented and aligned in the desired line and keeping
                             // the distance one to the other.
@@ -311,14 +313,10 @@ public class Raycasting : MonoBehaviour
                             shootDir = Quaternion.Euler(0f, -90.0f, 0f) * shootDir;
                             Vector3 cannonSpawnPos = player.transform.position + shootDir * (0.5f * (level - (i * 2)) -0.5f);
                             shotPos += shootDir * (0.5f * (level - (i * 2)) - 0.5f);
-                            Debug.Log(cannonSpawnPos.z);
 
                             Vector3 direction = shotPos - cannonSpawnPos;
 
-                            //Vector3 pos = player.transform.position;
-                            
-                            //Debug.DrawLine(pos, pos + dir * 10, Color.red, Mathf.Infinity);
-
+                            // Shooting.
                             GameObject cannonBall = Instantiate(cannonBallPrefab, cannonSpawnPos, Quaternion.identity); // Instantiating the cannonball further ahead to not automatic touch the cannon itself and cause collision.
                             // Get access to the rigidbody of the cannonball to manipulate it's states.
                             Rigidbody rb = cannonBall.GetComponent<Rigidbody>();
