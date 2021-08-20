@@ -5,6 +5,8 @@ using UnityEngine;
 
 /// <summary>
 /// The management of the leveling system for the ships and the score.
+/// As a workaround to separate the cannons on different decks, I am giving them tags like "Deck1", "Deck2" etc. but It is not easy
+/// to create tags from the script so I manually created 10 deck tags in the Unity Editor and that should do for a while.
 /// </summary>
 public class LevelController : MonoBehaviour
 {
@@ -12,7 +14,10 @@ public class LevelController : MonoBehaviour
     int score;
     // Make the level variable public to get it from other scripts.
     public int level;
+    private int decks = 1;
     int levelStep = 35;    // TODO - Find better variable name for this.
+    int deckStep = 5;
+    int whichDeck = 1;  // Helper variable to decide on which deck to spawn the cannon.
     float scaleChange = 5.0f;
     private int cratePoints = 10;
 
@@ -29,14 +34,24 @@ public class LevelController : MonoBehaviour
 
     // Method to change the level of the ship depending on the score.
     public void ChangeLevel()
-    {
-        // Debug.Log("Score: " + score);
-        // Debug.Log(this.transform.name);
+    {   
+        // Check if a new deck is needed.
+        if (level >= decks * deckStep)
+        {
+            Debug.Log("New deck needed.");
+            decks++;
+        }
+
+        if (whichDeck < decks)
+        {
+            Debug.Log("Deck swaping needed.");
+            whichDeck++;
+        }
         // Check depending on the score if the ship is ready to level.
         if (score >= level * levelStep)
         {
             level++;
-            // On each level the ship gets a nex max health and some 100 health points.
+            // On each level the ship gets a new max health and some 100 health points.
             this.GetComponent<Health>().maxHealth = level * 50 + 50;
             // this.GetComponent<Health>().currentHealth = level * 100;
             this.GetComponent<Health>().ModifyHealth(100);
@@ -47,22 +62,25 @@ public class LevelController : MonoBehaviour
             // Move all cannons which are inside Cannons a bit to the front to make place for the new cannons.
             foreach (Transform child in cannonSystem.transform)
             {
-                Vector3 offset = new Vector3(0f, 0f, 0.25f);
-                child.transform.localPosition += offset;
+                if (child.gameObject.CompareTag("Deck1"))
+                {
+                    Vector3 offset = new Vector3(0f, 0f, 0.25f);
+                    child.transform.localPosition += offset;
+                }
             }
 
             // Add a new cannon on both sides.
             GameObject cannon = Instantiate(cannonPrefab, new Vector3(this.transform.localPosition.x - 0.4f, this.transform.localPosition.y + 1.0f, this.transform.localPosition.z), this.transform.rotation);
             cannon.transform.SetParent(cannonSystem.transform);
             cannon.name = "LeftCannon" + level;
-            cannon.tag = "LeftCannon";
-            cannon.transform.localPosition = new Vector3(-0.3f, 1.0f, -0.25f * (level - 1));
+            cannon.tag = "Deck" + whichDeck;
+            cannon.transform.localPosition = new Vector3(-0.3f, 0.25f * whichDeck, -0.25f * (level - 1));
             cannon.transform.localEulerAngles = new Vector3(0, 0, 0);
             GameObject secondCannon = Instantiate(cannonPrefab, new Vector3(this.transform.position.x + 0.4f, this.transform.position.y + 0.25f, this.transform.position.z), Quaternion.identity);
             secondCannon.transform.SetParent(cannonSystem.transform);
             secondCannon.name = "RightCannon" + level;
-            secondCannon.tag = "RightCannon";
-            secondCannon.transform.localPosition = new Vector3(0.3f, 0.25f, -0.25f * (level - 1));
+            secondCannon.tag = "Deck" + whichDeck;
+            secondCannon.transform.localPosition = new Vector3(0.3f, 0.25f * whichDeck, -0.25f * (level - 1));
             secondCannon.transform.localEulerAngles = new Vector3(0, 180.0f, 0);
         }
         

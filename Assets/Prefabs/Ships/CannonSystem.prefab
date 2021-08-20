@@ -99,6 +99,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftCannon1
       objectReference: {fileID: 0}
+    - target: {fileID: 9048966440395415831, guid: 74b61927fae8a164a89f2a62e26e8693,
+        type: 3}
+      propertyPath: m_TagString
+      value: Deck1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74b61927fae8a164a89f2a62e26e8693, type: 3}
 --- !u!4 &6480554143633699438 stripped
@@ -173,6 +178,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RightCannon1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048966440395415831, guid: 74b61927fae8a164a89f2a62e26e8693,
+        type: 3}
+      propertyPath: m_TagString
+      value: Deck1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74b61927fae8a164a89f2a62e26e8693, type: 3}
