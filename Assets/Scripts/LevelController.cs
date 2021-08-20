@@ -17,7 +17,8 @@ public class LevelController : MonoBehaviour
     private int decks = 1;
     int levelStep = 35;    // TODO - Find better variable name for this.
     int deckStep = 5;
-    int whichDeck = 1;  // Helper variable to decide on which deck to spawn the cannon.
+    int currentDeck = 1;  // Helper variable to decide on which deck to spawn the cannon.
+    int cannonPos = 1;
     float scaleChange = 5.0f;
     private int cratePoints = 10;
 
@@ -42,29 +43,31 @@ public class LevelController : MonoBehaviour
             decks++;
         }
 
-        if (whichDeck < decks)
+        if (currentDeck < decks)
         {
             Debug.Log("Deck swaping needed.");
-            whichDeck++;
+            currentDeck++;
+            cannonPos = 1;
         }
         // Check depending on the score if the ship is ready to level.
         if (score >= level * levelStep)
         {
             level++;
+            cannonPos++;
             // On each level the ship gets a new max health and some 100 health points.
             this.GetComponent<Health>().maxHealth = level * 50 + 50;
             // this.GetComponent<Health>().currentHealth = level * 100;
             this.GetComponent<Health>().ModifyHealth(100);
             
             // Debug.Log("Time to level.");
-            hull.transform.localScale += new Vector3(scaleChange, scaleChange * 2.0f, scaleChange);
+            hull.transform.localScale += new Vector3(scaleChange, scaleChange * 1.5f, scaleChange);
 
             // Move all cannons which are inside Cannons a bit to the front to make place for the new cannons.
             foreach (Transform child in cannonSystem.transform)
             {
-                if (child.gameObject.CompareTag("Deck1"))
+                if (child.gameObject.CompareTag("Deck" + currentDeck))
                 {
-                    Vector3 offset = new Vector3(0f, 0f, 0.25f);
+                    Vector3 offset = new Vector3(level * 0.05f, 0f, 0.25f);
                     child.transform.localPosition += offset;
                 }
             }
@@ -73,14 +76,14 @@ public class LevelController : MonoBehaviour
             GameObject cannon = Instantiate(cannonPrefab, new Vector3(this.transform.localPosition.x - 0.4f, this.transform.localPosition.y + 1.0f, this.transform.localPosition.z), this.transform.rotation);
             cannon.transform.SetParent(cannonSystem.transform);
             cannon.name = "LeftCannon" + level;
-            cannon.tag = "Deck" + whichDeck;
-            cannon.transform.localPosition = new Vector3(-0.3f, 0.25f * whichDeck, -0.25f * (level - 1));
+            cannon.tag = "Deck" + currentDeck;
+            cannon.transform.localPosition = new Vector3(-0.3f - (level * 0.05f), 0.25f * currentDeck, -0.25f * (cannonPos - 1));
             cannon.transform.localEulerAngles = new Vector3(0, 0, 0);
             GameObject secondCannon = Instantiate(cannonPrefab, new Vector3(this.transform.position.x + 0.4f, this.transform.position.y + 0.25f, this.transform.position.z), Quaternion.identity);
             secondCannon.transform.SetParent(cannonSystem.transform);
             secondCannon.name = "RightCannon" + level;
-            secondCannon.tag = "Deck" + whichDeck;
-            secondCannon.transform.localPosition = new Vector3(0.3f, 0.25f * whichDeck, -0.25f * (level - 1));
+            secondCannon.tag = "Deck" + currentDeck;
+            secondCannon.transform.localPosition = new Vector3(0.3f + (level * 0.05f), 0.25f * currentDeck, -0.25f * (level - 1));
             secondCannon.transform.localEulerAngles = new Vector3(0, 180.0f, 0);
         }
         
