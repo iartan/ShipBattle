@@ -117,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
     // Instantiate crate at player position.
     public void DropCrate()
     {
-        Vector3 dropPos = transform.position + (transform.up * 2.0f); // + (transform.forward * 2.0f);
+        Vector3 dropPos = transform.position + (transform.up * 2.0f) + (transform.forward * 2.0f);
         Instantiate(crate, dropPos, UnityEngine.Random.rotation);
     }
 
@@ -165,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // this.transform.position += transform.forward * forwardSpeed * Time.deltaTime;  // Moves the player forward at given speed.
+        this.transform.position += transform.forward * forwardSpeed * Time.deltaTime;  // Moves the player forward at given speed.
         var pos = transform.position;   // Ship moves weird on the Y-axis, up and down. We force a 0.25 Y position here.
         pos.y = 0.25f;
         transform.position = pos;

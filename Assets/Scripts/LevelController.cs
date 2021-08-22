@@ -17,7 +17,7 @@ public class LevelController : MonoBehaviour
     private int decks = 1;
     int levelStep = 35;    // TODO - Find better variable name for this.
     int deckStep = 5;
-    int currentDeck = 1;  // Helper variable to decide on which deck to spawn the cannon.
+    public int currentDeck = 1;  // Helper variable to decide on which deck to spawn the cannon.
     int cannonPos = 1;
     float scaleChange = 5.0f;
     private int cratePoints = 10;
@@ -43,6 +43,7 @@ public class LevelController : MonoBehaviour
             decks++;
         }
 
+        // If a new deck appeared, a new variable is need to keep track.
         if (currentDeck < decks)
         {
             Debug.Log("Deck swaping needed.");
@@ -64,11 +65,23 @@ public class LevelController : MonoBehaviour
 
             // Move all cannons which are inside Cannons a bit to the front to make place for the new cannons.
             foreach (Transform child in cannonSystem.transform)
-            {
+            {   
                 if (child.gameObject.CompareTag("Deck" + currentDeck))
                 {
-                    Vector3 offset = new Vector3(level * 0.05f, 0f, 0.25f);
+                    Vector3 offset = new Vector3(0f, 0f, 0.25f);
                     child.transform.localPosition += offset;
+                }
+
+                // When the ship grows bigger, the cannons are more and more hidden inside the hull, therefore we need to pull them out on the local X-axis each new level.
+                if (child.gameObject.name.StartsWith("Right"))
+                {
+                    Vector3 offsetX = new Vector3(0.05f, 0f, 0f);
+                    child.transform.localPosition += offsetX;
+                }
+                else
+                {
+                    Vector3 offsetX = new Vector3(-0.05f, 0f, 0f);
+                    child.transform.localPosition += offsetX;
                 }
             }
 
@@ -77,17 +90,16 @@ public class LevelController : MonoBehaviour
             cannon.transform.SetParent(cannonSystem.transform);
             cannon.name = "LeftCannon" + level;
             cannon.tag = "Deck" + currentDeck;
-            cannon.transform.localPosition = new Vector3(-0.3f - (level * 0.05f), 0.25f * currentDeck, -0.25f * (cannonPos - 1));
+            cannon.transform.localPosition = new Vector3(-0.3f - (level * 0.05f), 0.5f * currentDeck - 0.25f, -0.25f * (cannonPos - 1));
             cannon.transform.localEulerAngles = new Vector3(0, 0, 0);
             GameObject secondCannon = Instantiate(cannonPrefab, new Vector3(this.transform.position.x + 0.4f, this.transform.position.y + 0.25f, this.transform.position.z), Quaternion.identity);
             secondCannon.transform.SetParent(cannonSystem.transform);
             secondCannon.name = "RightCannon" + level;
             secondCannon.tag = "Deck" + currentDeck;
-            secondCannon.transform.localPosition = new Vector3(0.3f + (level * 0.05f), 0.25f * currentDeck, -0.25f * (level - 1));
+            secondCannon.transform.localPosition = new Vector3(0.3f + (level * 0.05f), 0.5f * currentDeck - 0.25f, -0.25f * (cannonPos - 1));
             secondCannon.transform.localEulerAngles = new Vector3(0, 180.0f, 0);
         }
         
-
         //int score = gameController.GetComponent<GameController>().score;
         //if (score < 60 && score > 29)
         //{

@@ -25,21 +25,14 @@ public class Raycasting : MonoBehaviour
     private bool canShoot = true;
     Vector3 direction;
 
-    // Ship level changes.
-    public GameObject shipLevel1;
-    public GameObject shipLevel2;
-    public GameObject shipLevel3;
-    private GameObject currentShip;
-    private int currentShipLevel = 1;
     public GameObject mine;
 
-    // Cannons are saved to lists.
-    public List<Transform> cannonsLeft = new List<Transform>();    // Lists for putting all cannons in a left and right list.
-    public List<Transform> cannonsRight = new List<Transform>();
-    public List<Transform> currentCannons = new List<Transform>();
+    // Arrays in which the positions for the cannonballs to spawn are saved here.
+    float[] oddCannonPos = { 0f, 1.0f, -1.0f, 2.0f, -2.0f };
+    float[] evenCannonPos = { 0.5f, -0.5f, 1.5f, -1.5f };
 
-    float leftDist = 0;
-    float rightDist = 0;
+    // Variable for the cannonball spawn position from the arrays.
+    float spawnZ = 0;   
 
     // Slider for the shooting timer.
     public Slider slider;
@@ -70,28 +63,29 @@ public class Raycasting : MonoBehaviour
         }
     }
 
+    // TODO - Do not need this anymore because I changed the shooting system.
     // Get all cannons by searching the childs and save then in lists.
     public void GetCannons()
     {
-        foreach (Transform child in player.transform)
-        {
-            if (child.gameObject.CompareTag("Cannons"))
-            {
-                currentShip = child.gameObject;
-                currentShip.transform.parent = player.transform;
-                foreach (Transform childOfChild in child.transform)
-                {
-                    if (childOfChild.gameObject.CompareTag("LeftCannon"))
-                    {
-                        cannonsLeft.Add(childOfChild.transform);
-                    }
-                    else if (childOfChild.gameObject.CompareTag("RightCannon"))
-                    {
-                        cannonsRight.Add(childOfChild.transform);
-                    }
-                }
-            }
-        }
+        //foreach (Transform child in player.transform)
+        //{
+        //    if (child.gameObject.CompareTag("Cannons"))
+        //    {
+        //        currentShip = child.gameObject;
+        //        currentShip.transform.parent = player.transform;
+        //        foreach (Transform childOfChild in child.transform)
+        //        {
+        //            if (childOfChild.gameObject.CompareTag("LeftCannon"))
+        //            {
+        //                cannonsLeft.Add(childOfChild.transform);
+        //            }
+        //            else if (childOfChild.gameObject.CompareTag("RightCannon"))
+        //            {
+        //                cannonsRight.Add(childOfChild.transform);
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     // Replace the player ship prefab depending on the score.
@@ -177,30 +171,30 @@ public class Raycasting : MonoBehaviour
         Instantiate(mine, dropPos, UnityEngine.Random.rotation);
     }
 
-    // Reset ship model when the reset button is pressed.
+    // Reset ship model when the reset button is pressed. TODO - since the leveling system got changed this is not needed anymore.
     public void ResetShipModel()
     {   
-        // Swap current prefab with the level 1 prefab.
-        GameObject thisModel = Instantiate(shipLevel1, player.transform.position, player.transform.rotation) as GameObject;
-        Destroy(currentShip);
-        thisModel.transform.parent = player.transform;
-        currentShip = thisModel;
-        player.GetComponent<Health>().maxHealth = 100;
-        player.GetComponent<Health>().ModifyHealth(0);
-        player.GetComponent<PlayerMovement>().HealthOnTop();
-        cannonsLeft.Clear();
-        cannonsRight.Clear();
-        foreach (Transform child in currentShip.transform)
-        {
-            if (child.gameObject.CompareTag("LeftCannon"))
-            {
-                cannonsLeft.Add(child.transform);
-            }
-            else if (child.gameObject.CompareTag("RightCannon"))
-            {
-                cannonsRight.Add(child.transform);
-            }
-        }
+        //// Swap current prefab with the level 1 prefab.
+        //GameObject thisModel = Instantiate(shipLevel1, player.transform.position, player.transform.rotation) as GameObject;
+        //Destroy(currentShip);
+        //thisModel.transform.parent = player.transform;
+        //currentShip = thisModel;
+        //player.GetComponent<Health>().maxHealth = 100;
+        //player.GetComponent<Health>().ModifyHealth(0);
+        //player.GetComponent<PlayerMovement>().HealthOnTop();
+        //cannonsLeft.Clear();
+        //cannonsRight.Clear();
+        //foreach (Transform child in currentShip.transform)
+        //{
+        //    if (child.gameObject.CompareTag("LeftCannon"))
+        //    {
+        //        cannonsLeft.Add(child.transform);
+        //    }
+        //    else if (child.gameObject.CompareTag("RightCannon"))
+        //    {
+        //        cannonsRight.Add(child.transform);
+        //    }
+        //}
     }
 
     // Check if touch/click is on the UI to stop the raycast.
@@ -280,20 +274,21 @@ public class Raycasting : MonoBehaviour
                     {
                         // Get the player level.
                         int level = player.GetComponent<LevelController>().level;
+                        int currentDeck = player.GetComponent<LevelController>().currentDeck;
 
                         // Reset the clickTimer.
                         clickTimer = 0;
-                        leftDist = Vector3.Distance(cannonsLeft[0].transform.position, hit.point);
-                        rightDist = Vector3.Distance(cannonsRight[0].transform.position, hit.point);
+                        //leftDist = Vector3.Distance(cannonsLeft[0].transform.position, hit.point);
+                        //rightDist = Vector3.Distance(cannonsRight[0].transform.position, hit.point);
 
-                        if (leftDist <= rightDist)
-                        {
-                            currentCannons = cannonsLeft;
-                        }
-                        else
-                        {
-                            currentCannons = cannonsRight;
-                        }
+                        //if (leftDist <= rightDist)
+                        //{
+                        //    currentCannons = cannonsLeft;
+                        //}
+                        //else
+                        //{
+                        //    currentCannons = cannonsRight;
+                        //}
 
                         var go1 = new GameObject { name = "Circle" };   // Instantiating a circle on the water to indicate shooting position.
                         go1.transform.Translate(hit.point);
@@ -302,19 +297,48 @@ public class Raycasting : MonoBehaviour
 
                         // Shoot the amount of times matching the level.
                         for (int i = 0; i < level; i++)
-                        {
+                        {   
                             // The hitpoint of the raycast in the ground-layer is the shoot position.
                             Vector3 shotPos = hit.point;
 
-                            // Spawn cannonball in a row in the direction where the shoot position faces the player.
-                            // I came to this formula to let the cannons shoot where each cannonball is cented and aligned in the desired line and keeping
-                            // the distance one to the other.
-                            Vector3 shootDir = (hit.point - player.transform.position).normalized;
-                            shootDir = Quaternion.Euler(0f, -90.0f, 0f) * shootDir;
-                            Vector3 cannonSpawnPos = player.transform.position + shootDir * (0.5f * (level - (i * 2)) -0.5f);
-                            shotPos += shootDir * (0.5f * (level - (i * 2)) - 0.5f);
+                            spawnZ = oddCannonPos[i - ((i / 5) * 5)];
 
-                            Vector3 direction = shotPos - cannonSpawnPos;
+                            //if (i < 5)
+                            //{
+                            //    if (level % 2 != 0)
+                            //    {
+                            //        spawnZ = oddCannonPos[i - ((i / 5) * 5)];
+                            //    }
+                            //    else
+                            //    {
+                            //        spawnZ = evenCannonPos[i - ((i / 4) * 4)];
+                            //    }
+                            //}
+                            //else if (i >= 5)
+                            //{
+
+                            //}
+                            
+
+                            // Spawn cannonball in a row in the direction where the shoot position faces the player.
+                            // I came to this formula ((0.5f * (level - (i * 2)) -0.5f)) to let the cannons shoot where each cannonball is cented and aligned in the desired line and keeping
+                            // the distance one to the other.
+
+                            // shootDirection = Direction in which the cannonballs are flying.
+                            // Setting both Y-axis manually to 0 for the direction to be a completely horizontal line.
+                            Vector3 shootDirection = (new Vector3(shotPos.x, 0f, shotPos.z) - new Vector3(player.transform.position.x, 0f, player.transform.position.z)).normalized;
+
+                            // spawnDirection = Direction in which the cannonballs spawn on the ship, 
+                            Vector3 spawnDirection = Quaternion.Euler(0f, -90.0f, 0f) * shootDirection;
+                            
+                            // Hardcasting cannonball spawn positions because its too complicated for now.
+                            Vector3 cannonSpawnPos = new Vector3(player.transform.position.x, (0.625f * (i / 5)) + 0.25f, player.transform.position.z) + spawnDirection * spawnZ; // - ((i) / 5) * 0.5f);  + ((i / 5) * 5)
+
+                            // Vector3 cannonSpawnPos = new Vector3(player.transform.position.x, (0.5f * (i / 5)) + 0.25f, player.transform.position.z) + spawnDirection * (0.5f * (level - (i * 3)) - 0.5f); // - ((i) / 5) * 0.5f);  + ((i / 5) * 5)
+                            // Vector3 cannonSpawnPos = new Vector3(player.transform.position.x, (0.5f * (i / 5)) + 0.25f, player.transform.position.z) + spawnDirection * (0.5f * (level - (((level - 1) / 5 * 5)) - ((i - i / 5 * 5) * 2) - 0.5f)); // - ((i) / 5) * 0.5f);  + ((i / 5) * 5)
+
+
+                            // Vector3 direction = shotPos - cannonSpawnPos;
 
                             // Shooting.
                             GameObject cannonBall = Instantiate(cannonBallPrefab, cannonSpawnPos, Quaternion.identity); // Instantiating the cannonball further ahead to not automatic touch the cannon itself and cause collision.
@@ -324,7 +348,31 @@ public class Raycasting : MonoBehaviour
                             cannonBall.gameObject.tag = "PlayerCannonBall";
 
                             cannonBall.GetComponent<CannonBall>().goal = shotPos;
-                            rb.AddForce((direction.normalized) * cannonForce, ForceMode.Impulse);
+                            rb.AddForce((shootDirection) * cannonForce, ForceMode.Impulse);
+
+                            // Debug.Log("Level " + (i + 1) + " / 5 = " + (i + 1) / 5);
+                            // Debug.Log(level + " " + (i * 2));
+                            // Debug.Log((level - i / 5 * 5) + " " + ((i - i / 5 * 5) * 2));
+                            // Debug.Log("Level is: " + (level - ((level - 1) / 5) * 5) + " and i is: " + (i - i / 5 * 5) * 2);
+                            // Debug.Log("Level is: " + (level - ((level - 1) / 5) * 5) + " and i is: " + (i - i / 5 * 5) * 2);
+
+                            // Debug.Log((0.5f * (level - i / 5 * 5 - ((i - i / 5 * 5) * 2)) - 0.5f));
+                            // Debug.Log((0.5f * (i / 5)) + 0.25f);
+                            // Debug.Log(level / currentDeck);
+                            //Debug.Log(level);
+                            //Debug.Log((i / 5) * 5);
+                            //Debug.Log(level - i / 5 * 5);
+                            //Debug.Log(level - i / 5 * 5);
+                            // Debug.Log((0.5f * (level - (i * 2)) - 0.5f));
+                            // Debug.Log((level * 0.5f) - ((i + 1) * 0.5f));
+                            // Debug.Log(level - level * 0.75f); // (i * 0.5));
+                            // Debug.Log(level / 2.0f - 1.5);
+                            // Debug.Log(-1 + i * 0.5f);
+                            // Debug.Log(0.5f * (level - (((level - 1) / 5 * 5)) - ((i - i / 5 * 5) * 2) - 0.5f));
+                            // Debug.Log((0.5f * (level - (i * 2)) - 0.5f));
+                            // Debug.Log("Level is: " + (level - (level - 1) / 5 * 5) + " And i is:" + (i * 2));
+                            Debug.Log((level - 1));
+
                         }
 
                         // TODO - This is the old shooting method, currently changing it.

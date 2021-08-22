@@ -77,7 +77,7 @@ public class CannonBall : MonoBehaviour
     {
         // Forcing a fixed Y position
         var pos = transform.position;   
-        pos.y = 0.45f;
-        transform.position = pos;
+        // pos.y = 0.45f;
+        // transform.position = pos;
     }
 }
