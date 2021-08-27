@@ -13,6 +13,7 @@ public class EnemyBot : MonoBehaviour
     public Transform explosionPrefab;
     public GameObject scoreText;
     public GameObject healthText;
+    int level = 0;
     
     IEnumerator randomMove;
     public Vector3 randomPosition;  // Important variable, its always the position where the bot is heading to. 
@@ -60,6 +61,7 @@ public class EnemyBot : MonoBehaviour
     {   
         // Add all cannons to cannons-list on startup.
         GetCannons();
+        int level = this.GetComponent<LevelController>().level;
 
         // Generate new position to start patrol.
         randomPosition = new Vector3(Random.Range(-50, 50), 0.25f, Random.Range(-50, 50));
@@ -282,18 +284,22 @@ public class EnemyBot : MonoBehaviour
     {   
         if (other.transform.CompareTag("PlayerShip") || other.transform.CompareTag("Enemy"))
         {
+            level = this.GetComponent<LevelController>().level;
+            int otherLevel = other.GetComponentInParent<LevelController>().level;
+
             bool shouldBotAttack = false;
             // Check if the other ship is stronger and decide if to attack.
             // Count the childs to find out the level. Very bad solution but tt will do for now. The currentShipLevel variable is the current level.
-            if (currentShipLevel * 2 == other.transform.childCount)
+            if (level == otherLevel)
             {
+                Debug.Log("My Level is: " + level + " and others is: " + otherLevel);
                 // print("This ship has " + other.transform.childCount + " cannons and I have " + currentShipLevel * 2 + " I'll attack.");
                 if (true) // %70 percent attack chance (1 - 0.3 is 0.7)
                 {
                     shouldBotAttack = true;
                 }
             }
-            else if (currentShipLevel * 2 < other.transform.childCount)
+            else if (level < otherLevel)
             {
                 // print("This ship has " + other.transform.childCount + " cannons and I have " + currentShipLevel * 2 + " - I'll run.");
                 if (true) // %20 percent attack chance (1 - 0.8 is 0.2)
@@ -395,7 +401,7 @@ public class EnemyBot : MonoBehaviour
             //    currentCannons = cannonsRight;
             //}
 
-            int level = this.GetComponent<LevelController>().level;
+            level = this.GetComponent<LevelController>().level;
 
             // Shoot the amount of times matching the level.
             for (int i = 0; i < level; i++)
