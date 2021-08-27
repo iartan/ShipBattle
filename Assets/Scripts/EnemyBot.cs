@@ -79,7 +79,7 @@ public class EnemyBot : MonoBehaviour
     // TODO - This method seems a bit odd, why is here no waiting time? I don't remember... maybe this can be transformed to a normal method.
     private IEnumerator Move(Vector3 destination, float speed)
     {
-        while (Vector3.Distance(this.transform.position, destination) > 0.1f)
+        while (Vector3.Distance(this.transform.position, destination) > 1.0f)
         {
             if (!insideVortex)
             {
