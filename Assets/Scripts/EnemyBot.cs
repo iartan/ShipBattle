@@ -298,6 +298,7 @@ public class EnemyBot : MonoBehaviour
     {   
         if (other.transform.CompareTag("PlayerShip") || other.transform.CompareTag("Enemy"))
         {
+            level = this.GetComponent<LevelController>().level;
             // Drop seamine when a enemy is nearer than the given distance.
             if (Vector3.Distance(this.transform.position, other.transform.position) < dropMineDistance)
             {
@@ -305,12 +306,11 @@ public class EnemyBot : MonoBehaviour
                 {
                     canCastSeaMine = true;
                     // To cast the seamine a bit behind yourself, subtract a float in the forward direction.
-                    castSeaMine = SeaMineTime(seaMineDelay, this.transform.position - this.transform.forward * 2.0f);
+                    castSeaMine = SeaMineTime(seaMineDelay, this.transform.position - this.transform.forward * (2.0f + level * 0.1f));
                     StartCoroutine(castSeaMine);
                 }
             }
 
-            level = this.GetComponent<LevelController>().level;
             int otherLevel = other.GetComponentInParent<LevelController>().level;
 
             bool shouldBotAttack = false;

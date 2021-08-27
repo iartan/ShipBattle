@@ -77,6 +77,8 @@ MonoBehaviour:
   buttonLeftBool: 0
   buttonRightBool: 0
   buttonLeft: {fileID: 0}
+  explosionPrefab: {fileID: 4388947112716342, guid: 5d7feea1c65ef0544ad07e7a4d6d5e74,
+    type: 3}
 --- !u!54 &82381570832914346
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -106,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
+  currentDeck: 1
   hull: {fileID: 8094917755156503485}
   cannonPrefab: {fileID: 9048966440395415831, guid: 74b61927fae8a164a89f2a62e26e8693,
     type: 3}

@@ -167,7 +167,8 @@ public class Raycasting : MonoBehaviour
     // Drop a mine at player position when button is pressed.
     public void DropMine()
     {
-        Vector3 dropPos = player.transform.position;
+        int level = player.GetComponent<LevelController>().level;
+        Vector3 dropPos = player.transform.position - player.transform.forward * (2.0f + level * 0.1f);
         Instantiate(mine, dropPos, UnityEngine.Random.rotation);
     }
 

@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     public bool buttonRightBool = false;
     public Button buttonLeft;
 
+    public Transform explosionPrefab;
+
     void Start()
     {
         // Look for the GameController.
@@ -96,6 +98,18 @@ public class PlayerMovement : MonoBehaviour
             Destroy(other.gameObject);
             this.GetComponent<Health>().ModifyHealth(10);   // Crates give 10 healthpoints.
             HealthOnTop();
+        }
+        else if (other.gameObject.CompareTag("Mine"))
+        {
+            Instantiate(explosionPrefab, other.transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
+            Destroy(other.gameObject);
+            for (int i = 0; i < 3; i++) // Spawning crates after destruction.
+            {
+                var xz = UnityEngine.Random.insideUnitCircle * 0.5f;    // Random Vector2 position in a given radius.
+                var newPosition = new Vector3(xz.x, 1, xz.y) + this.transform.position; // Converting Vector2 to Vector3 and adding 1 to the Y-Axis so the position is above ground level.
+                Instantiate(crate, newPosition, UnityEngine.Random.rotation);
+            }
         }
     }
 
