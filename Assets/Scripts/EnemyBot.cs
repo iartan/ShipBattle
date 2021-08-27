@@ -22,7 +22,8 @@ public class EnemyBot : MonoBehaviour
     IEnumerator shoot;
     public float cannonForce = 20f;
     private bool startShooting = false;
-    public float range = 12.0f;
+    // Cannon shooting range.
+    public float range = 20.0f;
     
     // Variables for selecting shooting side.
     float leftDist = 0;
@@ -49,6 +50,14 @@ public class EnemyBot : MonoBehaviour
     public float backwardSpeed = 0f;
     public float aroundSpeed = 20f;
     public float rotationSpeed = 0f;
+
+    // Mine dropping.
+    IEnumerator castSeaMine;
+    public GameObject seaMine;
+    private float seaMineDelay = 10.0f;
+    private bool canCastSeaMine = false;
+    // The max distance the other ship should be away to drop a seamine.
+    private float dropMineDistance = 4.0f;
     
     // Ship model changes.
     public GameObject shipLevel1;
@@ -221,6 +230,11 @@ public class EnemyBot : MonoBehaviour
         Instantiate(vortexToPlace, pos, Quaternion.identity);
     }
 
+    void DropSeaMine(Vector3 pos)
+    {
+        Instantiate(seaMine, pos, Random.rotation);
+    }
+
     void OnCollisionEnter(Collision other)  // Gain scorepoints on collision with the dropped crates.
     {
         if (other.gameObject.CompareTag("Crates"))
@@ -284,16 +298,25 @@ public class EnemyBot : MonoBehaviour
     {   
         if (other.transform.CompareTag("PlayerShip") || other.transform.CompareTag("Enemy"))
         {
+            // Drop seamine when a enemy is nearer than the given distance.
+            if (Vector3.Distance(this.transform.position, other.transform.position) < dropMineDistance)
+            {
+                if (!canCastSeaMine)
+                {
+                    canCastSeaMine = true;
+                    // To cast the seamine a bit behind yourself, subtract a float in the forward direction.
+                    castSeaMine = SeaMineTime(seaMineDelay, this.transform.position - this.transform.forward * 2.0f);
+                    StartCoroutine(castSeaMine);
+                }
+            }
+
             level = this.GetComponent<LevelController>().level;
             int otherLevel = other.GetComponentInParent<LevelController>().level;
 
             bool shouldBotAttack = false;
-            // Check if the other ship is stronger and decide if to attack.
-            // Count the childs to find out the level. Very bad solution but tt will do for now. The currentShipLevel variable is the current level.
+            // Check if the others ship level is higher and decide if to attack.
             if (level == otherLevel)
             {
-                Debug.Log("My Level is: " + level + " and others is: " + otherLevel);
-                // print("This ship has " + other.transform.childCount + " cannons and I have " + currentShipLevel * 2 + " I'll attack.");
                 if (true) // %70 percent attack chance (1 - 0.3 is 0.7)
                 {
                     shouldBotAttack = true;
@@ -301,7 +324,6 @@ public class EnemyBot : MonoBehaviour
             }
             else if (level < otherLevel)
             {
-                // print("This ship has " + other.transform.childCount + " cannons and I have " + currentShipLevel * 2 + " - I'll run.");
                 if (true) // %20 percent attack chance (1 - 0.8 is 0.2)
                 {
                     shouldBotAttack = false;
@@ -461,6 +483,17 @@ public class EnemyBot : MonoBehaviour
             CreateVortex(pos);
             yield return new WaitForSeconds(waitTime);
             canCastVortex = false;
+        }
+    }
+
+    // Coroutine for placing a sea mine once in some seconds.
+    private IEnumerator SeaMineTime(float waitTime, Vector3 pos)
+    {
+        while (canCastSeaMine)
+        {
+            DropSeaMine(pos);
+            yield return new WaitForSeconds(waitTime);
+            canCastSeaMine = false;
         }
     }
 

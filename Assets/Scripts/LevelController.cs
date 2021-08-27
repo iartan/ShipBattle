@@ -12,14 +12,14 @@ public class LevelController : MonoBehaviour
 {
     // Initial variables.
     int score;
-    // Make the level variable public to get it from other scripts.
+    // Make the level variable public to get access from other scripts.
     public int level;
     private int decks = 1;
     int levelStep = 35;    // TODO - Find better variable name for this.
     int deckStep = 5;
     public int currentDeck = 1;  // Helper variable to decide on which deck to spawn the cannon.
     int cannonPos = 1;
-    float scaleChange = 5.0f;
+    float scaleChange = 3.0f;
     private int cratePoints = 10;
 
     public GameObject hull;
@@ -59,9 +59,12 @@ public class LevelController : MonoBehaviour
             this.GetComponent<Health>().maxHealth = level * 50 + 50;
             // this.GetComponent<Health>().currentHealth = level * 100;
             this.GetComponent<Health>().ModifyHealth(100);
-            
-            // Debug.Log("Time to level.");
-            hull.transform.localScale += new Vector3(scaleChange, scaleChange * 1.5f, scaleChange);
+
+            // Scale the ship up each 3 levels.
+            if (true)
+            {
+                hull.transform.localScale += new Vector3(scaleChange, scaleChange * 1.5f, scaleChange);
+            }
 
             // Move all cannons which are inside Cannons a bit to the front to make place for the new cannons.
             foreach (Transform child in cannonSystem.transform)

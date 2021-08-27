@@ -151,6 +151,7 @@ MonoBehaviour:
   backwardSpeed: 0
   aroundSpeed: 20
   rotationSpeed: 0
+  seaMine: {fileID: 8953055612666183909, guid: 4e18ed928c7db6a429e0032e4d7d5241, type: 3}
   shipLevel1: {fileID: 4617344457849333237, guid: 3134d9e4053323c46b7818754479d357,
     type: 3}
   shipLevel2: {fileID: 3787685581202723681, guid: 90a7e285924eafb499aafd9c7fbf4253,
@@ -186,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
+  currentDeck: 1
   hull: {fileID: 9161499927388682879}
   cannonPrefab: {fileID: 9048966440395415831, guid: 74b61927fae8a164a89f2a62e26e8693,
     type: 3}

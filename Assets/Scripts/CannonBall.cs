@@ -17,7 +17,7 @@ public class CannonBall : MonoBehaviour
     public float distance;
     public float groundDistance;
     public Vector3 goal;
-    private float cannonBallRange = 12.0f;
+    private float cannonBallRange = 20.0f;
 
     void Start()
     {
