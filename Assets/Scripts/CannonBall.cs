@@ -17,7 +17,8 @@ public class CannonBall : MonoBehaviour
     public float distance;
     public float groundDistance;
     public Vector3 goal;
- 
+    private float cannonBallRange = 12.0f;
+
     void Start()
     {
         // Get the GameController in the scene.
@@ -76,8 +77,13 @@ public class CannonBall : MonoBehaviour
     void Update()
     {
         // Forcing a fixed Y position
-        var pos = transform.position;   
+        var pos = transform.position;
         // pos.y = 0.45f;
         // transform.position = pos;
+        if (Vector3.Distance(this.transform.position, originalPosition) > cannonBallRange)
+        {
+            Destroy(gameObject);
+        }
+
     }
 }

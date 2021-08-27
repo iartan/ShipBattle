@@ -22,7 +22,7 @@ public class EnemyBot : MonoBehaviour
     IEnumerator shoot;
     public float cannonForce = 20f;
     private bool startShooting = false;
-    public float range = 6f;
+    public float range = 12.0f;
     
     // Variables for selecting shooting side.
     float leftDist = 0;
