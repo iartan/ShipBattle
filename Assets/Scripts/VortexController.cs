@@ -14,22 +14,19 @@ public class VortexController : MonoBehaviour
         Destroy(gameObject, 7.0f);
     }
 
+    // Drag seamines around on trigger stay.
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Crates") || other.gameObject.CompareTag("Mine"))
+        if (other.gameObject.CompareTag("Mine"))
         {
             other.transform.RotateAround(this.transform.position, Vector3.up, -100 * Time.deltaTime);
         }
     }
 
-    private void OnCollisionEnter (Collision other)
-    {
-        Debug.Log("Collison with " + other.transform.name);
-    }
-
+    // Drag crates around on collision stay.
     private void OnCollisionStay(Collision other)
     {
-        if (other.gameObject.CompareTag("Crates") || other.gameObject.CompareTag("Mine"))
+        if (other.gameObject.CompareTag("Crates"))
         {
             other.transform.RotateAround(this.transform.position, Vector3.up, -100 * Time.deltaTime);
         }

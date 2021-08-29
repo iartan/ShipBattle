@@ -260,7 +260,6 @@ public class EnemyBot : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("VortexTag"))
         {
-            Debug.Log("Entered a vortex.");
             lastVortex = other.gameObject;
             insideVortex = true;
         }
@@ -290,7 +289,6 @@ public class EnemyBot : MonoBehaviour
     {
         if (other.gameObject.CompareTag("VortexTag"))
         {
-            Debug.Log("Leaving the vortex.");
             insideVortex = false;
         }
     }
@@ -333,8 +331,18 @@ public class EnemyBot : MonoBehaviour
             }
             else
             {
-                // print("This ship has " + other.transform.childCount + " children and I have " + currentShipLevel * 2 + " - RUN!");
+                // The other ship is weaker so go for attack.
                 shouldBotAttack = true;
+
+                // Place an offensive Vortex at others position to stop him from fleeing.
+                Vector3 direction = other.transform.position - this.transform.position;
+                if (!canCastVortex)
+                {
+                    canCastVortex = true;
+                    // To cast the vortex a bit ahead of the enemy, subtract a float in the direction.
+                    castVortex = VortexTime(15.0f, other.transform.position - direction * 0.25f);
+                    StartCoroutine(castVortex);
+                }
             }
 
             if (shouldBotAttack)

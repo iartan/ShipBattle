@@ -351,30 +351,6 @@ public class Raycasting : MonoBehaviour
 
                             cannonBall.GetComponent<CannonBall>().goal = shotPos;
                             rb.AddForce((shootDirection) * cannonForce, ForceMode.Impulse);
-
-                            // Debug.Log("Level " + (i + 1) + " / 5 = " + (i + 1) / 5);
-                            // Debug.Log(level + " " + (i * 2));
-                            // Debug.Log((level - i / 5 * 5) + " " + ((i - i / 5 * 5) * 2));
-                            // Debug.Log("Level is: " + (level - ((level - 1) / 5) * 5) + " and i is: " + (i - i / 5 * 5) * 2);
-                            // Debug.Log("Level is: " + (level - ((level - 1) / 5) * 5) + " and i is: " + (i - i / 5 * 5) * 2);
-
-                            // Debug.Log((0.5f * (level - i / 5 * 5 - ((i - i / 5 * 5) * 2)) - 0.5f));
-                            // Debug.Log((0.5f * (i / 5)) + 0.25f);
-                            // Debug.Log(level / currentDeck);
-                            //Debug.Log(level);
-                            //Debug.Log((i / 5) * 5);
-                            //Debug.Log(level - i / 5 * 5);
-                            //Debug.Log(level - i / 5 * 5);
-                            // Debug.Log((0.5f * (level - (i * 2)) - 0.5f));
-                            // Debug.Log((level * 0.5f) - ((i + 1) * 0.5f));
-                            // Debug.Log(level - level * 0.75f); // (i * 0.5));
-                            // Debug.Log(level / 2.0f - 1.5);
-                            // Debug.Log(-1 + i * 0.5f);
-                            // Debug.Log(0.5f * (level - (((level - 1) / 5 * 5)) - ((i - i / 5 * 5) * 2) - 0.5f));
-                            // Debug.Log((0.5f * (level - (i * 2)) - 0.5f));
-                            // Debug.Log("Level is: " + (level - (level - 1) / 5 * 5) + " And i is:" + (i * 2));
-                            Debug.Log((level - 1));
-
                         }
 
                         // TODO - This is the old shooting method, currently changing it.
