@@ -130,85 +130,11 @@ public class EnemyBot : MonoBehaviour
         }
     }
 
-    // Change the ship model depending on the score. Swap the current prefab with a higher-level prefab and top health to a the new maximum health.
-    // 0-29 = Model 1, 30 - 59 = Model 2, 60+ = Model 3. 
-    public void ChangeShipModel()
-    {
-        Debug.Log("Dummy-Calling ChangeShipModel");
-        //if (score < 60 && score > 29)
-        //{
-        //    if (currentShipLevel != 2)
-        //    {
-        //        currentShipLevel = 2;
-
-        //        // Place the new model and get rid of the old one.
-        //        GameObject thisModel = Instantiate(shipLevel2, transform.position, transform.rotation) as GameObject;
-        //        Destroy(currentShip);
-        //        thisModel.transform.parent = transform;
-        //        currentShip = thisModel;
-        //        // Set health to 200 by chanching the values on the health script attached on the bot.
-        //        gameObject.GetComponent<Health>().maxHealth = 150;
-        //        gameObject.GetComponent<Health>().currentHealth = 150;
-        //        gameObject.GetComponent<Health>()
-        //                  .ModifyHealth(0);
-        //        // Refresh healh on top.
-        //        HealthOnTop();
-        //        // Because model changed, the cannons-lists need to be reverted.
-        //        cannonsLeft.Clear();
-        //        cannonsRight.Clear();
-        //        foreach (Transform child in currentShip.transform)
-        //        {
-        //            if (child.gameObject.CompareTag("LeftCannon"))
-        //            {
-        //                cannonsLeft.Add(child.transform);
-        //            }
-        //            else if (child.gameObject.CompareTag("RightCannon"))
-        //            {
-        //                cannonsRight.Add(child.transform);
-        //            }
-        //        }
-        //    }
-        //}
-        //else if (score < 90 && score > 59)
-        //{
-        //    if (currentShipLevel != 3)
-        //    {
-        //        currentShipLevel = 3;
-
-        //        // Place the new model and get rid of the old one.
-        //        GameObject thisModel = Instantiate(shipLevel3, transform.position, transform.rotation) as GameObject;
-        //        Destroy(currentShip);
-        //        thisModel.transform.parent = transform;
-        //        currentShip = thisModel;
-        //        // Set health to 200 by chanching the values on the health script attached on the bot.
-        //        gameObject.GetComponent<Health>().maxHealth = 200;
-        //        gameObject.GetComponent<Health>().currentHealth = 200;
-        //        gameObject.GetComponent<Health>().ModifyHealth(0);
-        //        HealthOnTop();
-        //        // Because model changed, the cannons-lists need to be reverted.
-        //        cannonsLeft.Clear();
-        //        cannonsRight.Clear();
-        //        foreach (Transform child in currentShip.transform)
-        //        {
-        //            if (child.gameObject.CompareTag("LeftCannon"))
-        //            {
-        //                cannonsLeft.Add(child.transform);
-        //            }
-        //            else if (child.gameObject.CompareTag("RightCannon"))
-        //            {
-        //                cannonsRight.Add(child.transform);
-        //            }
-        //        }
-        //    }
-        //}
-    }
-
     // Method to update the score.
     public void AddScore(int newScoreValue)
     {
         score += newScoreValue;
         ScoreUpdate();
-        ChangeShipModel();
     }
 
     void ScoreUpdate()

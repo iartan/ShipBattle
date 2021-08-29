@@ -93,7 +93,6 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Crates"))
         {
             gameController.AddScore(crateScoreValue);
-            gameController.GetComponent<Raycasting>().ChangeShipModel();
             // this.GetComponent<LevelController>().ChangeLevel();
             Destroy(other.gameObject);
             this.GetComponent<Health>().ModifyHealth(10);   // Crates give 10 healthpoints.
