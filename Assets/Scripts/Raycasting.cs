@@ -164,12 +164,13 @@ public class Raycasting : MonoBehaviour
         //}
     }
 
-    // Drop a mine at player position when button is pressed.
+    // Drop a mine at player position when button is pressed and set destruction timer for it.
     public void DropMine()
     {
         int level = player.GetComponent<LevelController>().level;
         Vector3 dropPos = player.transform.position - player.transform.forward * (2.0f + level * 0.1f);
-        Instantiate(mine, dropPos, UnityEngine.Random.rotation);
+        GameObject lastMine = Instantiate(mine, dropPos, UnityEngine.Random.rotation);
+        Destroy(lastMine, 15.0f);
     }
 
     // Reset ship model when the reset button is pressed. TODO - since the leveling system got changed this is not needed anymore.

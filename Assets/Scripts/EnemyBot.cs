@@ -230,9 +230,11 @@ public class EnemyBot : MonoBehaviour
         Instantiate(vortexToPlace, pos, Quaternion.identity);
     }
 
+    // Place a mine at position and destroy it after the given time.
     void DropSeaMine(Vector3 pos)
     {
-        Instantiate(seaMine, pos, Random.rotation);
+        GameObject lastMine = Instantiate(seaMine, pos, Random.rotation);
+        Destroy(lastMine, 15.0f);
     }
 
     void OnCollisionEnter(Collision other)  // Gain scorepoints on collision with the dropped crates.

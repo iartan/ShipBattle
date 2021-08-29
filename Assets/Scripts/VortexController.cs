@@ -14,6 +14,27 @@ public class VortexController : MonoBehaviour
         Destroy(gameObject, 7.0f);
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Crates") || other.gameObject.CompareTag("Mine"))
+        {
+            other.transform.RotateAround(this.transform.position, Vector3.up, -100 * Time.deltaTime);
+        }
+    }
+
+    private void OnCollisionEnter (Collision other)
+    {
+        Debug.Log("Collison with " + other.transform.name);
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("Crates") || other.gameObject.CompareTag("Mine"))
+        {
+            other.transform.RotateAround(this.transform.position, Vector3.up, -100 * Time.deltaTime);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

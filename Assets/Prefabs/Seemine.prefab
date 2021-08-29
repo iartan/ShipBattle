@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4673522127909311994}
   - component: {fileID: 7439762780248777008}
   - component: {fileID: -3908357921057191606}
+  - component: {fileID: -1404036221520000267}
   m_Layer: 0
   m_Name: Seemine
   m_TagString: Mine
@@ -90,8 +91,21 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8953055612666183909}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.6702144, y: 3.0313134, z: 3.1737957}
   m_Center: {x: 0.017767549, y: 0, z: -0.006212741}
+--- !u!65 &-1404036221520000267
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8953055612666183909}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.7057495, y: 3.0313134, z: 3.4335597}
+  m_Center: {x: 0, y: 0, z: -0.13609493}
