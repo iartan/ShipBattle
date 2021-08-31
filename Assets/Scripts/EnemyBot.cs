@@ -168,7 +168,6 @@ public class EnemyBot : MonoBehaviour
         if (other.gameObject.CompareTag("Crates"))
         {
             AddScore(crateScoreValue);
-            Destroy(other.gameObject);
             this.GetComponent<Health>().ModifyHealth(10);   // Crates give 10 healthpoints.
             HealthOnTop();
         }
@@ -274,7 +273,7 @@ public class EnemyBot : MonoBehaviour
             if (shouldBotAttack)
             {   
                 // If attacking is true, then follow the bot and start the shooting coroutine.
-                randomPosition = other.transform.position;
+                randomPosition = new Vector3(other.transform.position.x, 0.25f, other.transform.position.z);
                 distance = (Vector3.Distance(this.transform.position, other.transform.position));
                 if (distance < range)
                 {
@@ -336,7 +335,7 @@ public class EnemyBot : MonoBehaviour
         }
         else if (other.transform.CompareTag("Crates"))  // Pick up the crates.
         {
-            randomPosition = new Vector3(other.transform.position.x, this.transform.position.y, other.transform.position.z);
+            randomPosition = new Vector3(other.transform.position.x, 0.25f, other.transform.position.z);
         }
     }
 

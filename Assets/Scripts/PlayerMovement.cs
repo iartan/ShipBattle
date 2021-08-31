@@ -93,8 +93,6 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Crates"))
         {
             gameController.AddScore(crateScoreValue);
-            // this.GetComponent<LevelController>().ChangeLevel();
-            Destroy(other.gameObject);
             this.GetComponent<Health>().ModifyHealth(10);   // Crates give 10 healthpoints.
             HealthOnTop();
         }
@@ -130,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
     // Instantiate crate at player position.
     public void DropCrate()
     {
-        Vector3 dropPos = transform.position + (transform.up * 2.0f) + (transform.forward * 2.0f);
+        Vector3 dropPos = transform.position + (transform.up * 2.0f); // + (transform.forward * 2.0f);
         Instantiate(crate, dropPos, UnityEngine.Random.rotation);
     }
 
