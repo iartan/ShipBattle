@@ -23,7 +23,7 @@ public class EnemyBot : MonoBehaviour
     public float cannonForce = 20f;
     private bool startShooting = false;
     // Cannon shooting range.
-    public float range = 20.0f;
+    private float range = 20.0f;
     
     // Variables for selecting shooting side.
     float leftDist = 0;
@@ -205,8 +205,8 @@ public class EnemyBot : MonoBehaviour
             StartCoroutine(Decrease(1.5f, 0f, 2.5f, 1f));
             StartCoroutine(Increase());
 
-            this.transform.RotateAround(other.transform.position, Vector3.down, aroundSpeed * Time.deltaTime);  // Lets this rotating around another transform. Vortex dragging the ship around.
-            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(other.transform.position - this.transform.position) * Quaternion.Euler(0f, 75f, 0f), rotationSpeed * Time.deltaTime);   // Copies the rotation on other object minus 75 on the Y-Axis, so it stand alwys sideways.
+            this.transform.RotateAround(new Vector3(other.transform.position.x, 0.25f, other.transform.position.z), Vector3.down, aroundSpeed * Time.deltaTime);  // Lets this rotating around another transform. Vortex dragging the ship around.
+            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(new Vector3(other.transform.position.x, 0.25f, other.transform.position.z) - new Vector3(this.transform.position.x, 0.25f, this.transform.position.z)) * Quaternion.Euler(0f, 75f, 0f), rotationSpeed * Time.deltaTime);   // Copies the rotation on other object minus 75 on the Y-Axis, so it stand alwys sideways.
         }
     }
 
@@ -265,7 +265,7 @@ public class EnemyBot : MonoBehaviour
                 {
                     canCastVortex = true;
                     // To cast the vortex a bit ahead of the enemy, subtract a float in the direction.
-                    castVortex = VortexTime(15.0f, other.transform.position - direction * 0.25f);
+                    castVortex = VortexTime(15.0f, new Vector3(other.transform.position.x, 0.0f, other.transform.position.z)); // - direction * 0.25f);
                     StartCoroutine(castVortex);
                 }
             }

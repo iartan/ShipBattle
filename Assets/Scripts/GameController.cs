@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour
     public int score;
     private int num = 10;   // Number for naming of the enemies.
 
+    public GameObject cratePrefab;
+
     void Start()
     {
         score = 0;
@@ -45,12 +47,22 @@ public class GameController : MonoBehaviour
     }
 
     void Update()
-    {
+    {   
+        // Spawn a bot in random position if there are less than the given amount.
         if (GameObject.FindGameObjectsWithTag("Enemy").Length < 5) // If there are less than 5 bots in the game, spawn a new one in a random position.
         {
             GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(-50, 50), 0.25f, Random.Range(-50, 50)), Quaternion.identity);
             enemy.name = "SpawnedEnemy" + num;
             num++;
+        }
+
+        // Spawn a bot in random position if there are less than the given amount.
+        if (GameObject.FindGameObjectsWithTag("Crates").Length < 25) // If there are less than 5 bots in the game, spawn a new one in a random position.
+        {
+            GameObject crate = Instantiate(cratePrefab, new Vector3(Random.Range(-50, 50), 1.0f, Random.Range(-50, 50)), Quaternion.identity);
+            //crate.name = "SpawnedEnemy" + num;
+            //num++;
+            Debug.Log("Spawning a new crate.");
         }
     }
 }

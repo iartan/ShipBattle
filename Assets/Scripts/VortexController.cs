@@ -34,7 +34,12 @@ public class VortexController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+        // Rotate the Vortex around self.
         this.transform.Rotate(0.0f, -120.0f * Time.deltaTime, 0.0f, Space.Self);
+        // Workaround orce a 0.0f position at y-axis here, because bots place it always a bit over 0.0f.
+        var pos = transform.position;
+        pos.y = 0.0f;
+        transform.position = pos;
     }
 }
