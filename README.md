@@ -1,7 +1,6 @@
 # Aye-Aye
 
-Ein einfaches Mobile Game welches ich gemacht habe um mir die Programmierung mit C# beizubringen.
-Erstellt mit Unity3D.
+Privates Lernprojekt für C# Programmierung, erstellt mit Unity3D.
 
 Die Scripts befinden sich unter Assets/Scripts/
 
